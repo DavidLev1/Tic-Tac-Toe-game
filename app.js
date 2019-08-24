@@ -171,3 +171,6 @@ function pallete(e) {
 	pageTitleElem[0].style.color = fontColor;
 	bodyTagWithAllContent.style.backgroundColor = backgroundColor;
 } 
+
+
+// https://github.com/DavidLev1/Tic-Tac-Toe-game
