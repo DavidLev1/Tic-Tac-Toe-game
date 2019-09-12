@@ -8,36 +8,43 @@ var secondPlayerNameElem = document.getElementById("second-player-name");
 var playersNamesErrorElem = document.getElementById("players-names-error");
 playersNamesErrorElem.style.visibility = "hidden";
 
-var gameContainer = document.getElementById("game-container");
 var tableCellsElems = document.getElementsByClassName("table-cell");
 var displayWinnerElem = document.getElementById("winner");
 displayWinnerElem.style.visibility = "hidden";
 
 
 function startNewGame() {
+	getEmptyGameTable();
+	document.getElementById('stop-game-button').disabled = false;
+	document.getElementById('stop-game-button').innerText = "Stop Game";
+	
+	displayWinnerElem.style.visibility = "hidden";
+	displayWinnerElem.innerText = '';
+
 	if (firstPlayerNameElem.value === '' && secondPlayerNameElem.value === '')  {
 		playersNamesErrorElem.style.visibility = "visible";
-		playersNamesErrorElem.innerHTML = 'Please enter players names!';
+		playersNamesErrorElem.innerHTML = 'Enter players names';
 		return;
 	}
 
 	if (firstPlayerNameElem.value === '')  {
 		playersNamesErrorElem.style.visibility = "visible";
-		playersNamesErrorElem.innerHTML = 'Please enter first player name!';
+		playersNamesErrorElem.innerHTML = 'Enter player 1 name';
 		return;
 	}
 
 	if (secondPlayerNameElem.value === '')  {
 		playersNamesErrorElem.style.visibility = "visible";
-		playersNamesErrorElem.innerHTML = 'Please enter second player name!';
+		playersNamesErrorElem.innerHTML = 'Enter player 2 name';
 		return;
 	}
+
+	firstPlayerNameElem.disabled = true;
+	secondPlayerNameElem.disabled = true;
 
 	playersNamesErrorElem.style.visibility = "hidden";
 	playersNamesErrorElem.innerHTML = '';
 
-	//gameContainer.style.display = "block";
-	getEmptyGameTable();
 	displayWinnerElem.innerText = "";  
 	displayWinnerElem.style.visibility = "hidden";
 	isFirstPlayerTurn = true;
@@ -50,6 +57,20 @@ function startNewGame() {
 			displayPlayersChoices(this);
 		}
 	}
+}
+
+
+function stopGame() {
+	getEmptyGameTable();
+	firstPlayerNameElem.disabled = false;
+	secondPlayerNameElem.disabled = false;
+	firstPlayerNameElem.value = '';
+	secondPlayerNameElem.value = '';
+	disableChoicesOnGameBoard();
+	playersNamesErrorElem.style.visibility = "hidden";
+	playersNamesErrorElem.innerHTML = '';
+	displayWinnerElem.style.visibility = "hidden";
+	displayWinnerElem.innerText = '';
 }
 
 
@@ -70,15 +91,11 @@ function displayPlayersChoices(thisTableCellElem) {
 
 	if(isFirstPlayerTurn) {
 		thisTableCellElem.innerText = 'X';
-		//console.log(boardCellsArr[rowIndex][columnIndex]);
 		boardCellsArr[rowIndex][columnIndex] = 'X';
-		//console.log(boardCellsArr[rowIndex][columnIndex]);
 	}
 	else {
 		thisTableCellElem.innerText = 'O';
-		//console.log(boardCellsArr[rowIndex][columnIndex]);
 		boardCellsArr[rowIndex][columnIndex] = 'O';
-		//console.log(boardCellsArr[rowIndex][columnIndex]);
 	}
 
 	checkWin(rowIndex, columnIndex);	
@@ -98,35 +115,43 @@ function checkWin(rowID, colID) {
 	// If there is horizontal winning
 	if(boardCellsArr[rowID][0] === boardCellsArr[rowID][1] && boardCellsArr[rowID][1] === boardCellsArr[rowID][2]) {
 		displayWinnerElem.style.visibility = "visible";
-		displayWinnerElem.innerText = `The winner is ${winnerName}`;
+		displayWinnerElem.innerText = `Winner: ${winnerName}`;
 		isWon = true;
 	}
 	// If there is vertical winning
 	else if(boardCellsArr[0][colID] === boardCellsArr[1][colID] && boardCellsArr[1][colID] === boardCellsArr[2][colID]) {
 		displayWinnerElem.style.visibility = "visible";
-		displayWinnerElem.innerText = `The winner is ${winnerName}`;
+		displayWinnerElem.innerText = `Winner:  ${winnerName}`;
 		isWon = true;
 	}
 	// If there is left diagonal winning
 	else if(boardCellsArr[0][0] === boardCellsArr[1][1] && boardCellsArr[1][1] === boardCellsArr[2][2]) {
 		displayWinnerElem.style.visibility = "visible";
-		displayWinnerElem.innerText = `The winner is ${winnerName}`;
+		displayWinnerElem.innerText = `Winner:  ${winnerName}`;
 		isWon = true;
 	}
 	// If there is right diagonal winning
 	else if(boardCellsArr[2][0] === boardCellsArr[1][1] && boardCellsArr[1][1] === boardCellsArr[0][2]) {
 		displayWinnerElem.style.visibility = "visible";
-		displayWinnerElem.innerText = `The winner is ${winnerName}`;
+		displayWinnerElem.innerText = `Winner:  ${winnerName}`;
 		isWon = true;
 	}
 	// If there is no winning but the game board is full
 	else if (clicksCount === 9) {
+		displayWinnerElem.style.visibility = "visible";
 		displayWinnerElem.innerText = "A Tie";
-		isWon = true;
 	}
 
 	//if(isWon) gameContainer.style.display = "none";	
-	if(isWon) disableChoicesOnGameBoard();
+	if(isWon || clicksCount === 9) {
+		firstPlayerNameElem.disabled = false;
+		secondPlayerNameElem.disabled = false;
+		firstPlayerNameElem.value = '';
+		secondPlayerNameElem.value = '';
+		disableChoicesOnGameBoard();
+		document.getElementById('stop-game-button').disabled = true;
+		document.getElementById('stop-game-button').innerText = "Disabled";
+	} 
 }
 
 
@@ -148,31 +173,23 @@ function pallete(e) {
 
 	var fontColor, backgroundColor;
 
-	if (e.target.innerText === "light") {
-		fontColor = "#000099";
-		backgroundColor = "#E3FEED";
+	if (e.target.innerText === "Light Pallet") {
+		fontColor = "#9900ff";
+		backgroundColor = "#BFD9FF";
+		document.getElementById('players-names-error').style.color = 'red';
 	}
 	else {
-		fontColor = "#66ffcc";
+		fontColor = "#ffcc00";
 		backgroundColor = "#0F73EB";
+		document.getElementById('players-names-error').style.color = '#ffff00';
 	}
 
-	var bodyTagWithAllContent = document.getElementsByTagName("body")[0];
-	var gameBoardCells = document.getElementsByClassName("table-cell");
+	var bodyContent = document.getElementsByTagName("body")[0];
+	
 	var winnerNameDisplayElem = document.getElementById("winner");
-	var pageTitleElem = document.getElementsByClassName("page-title");
-
-	for (var i = 0; i < gameBoardCells.length; i++) {
-		gameBoardCells[i].style.border = "8px solid" + fontColor;
-		gameBoardCells[i].style.color = fontColor;
-	}
+	var pageTitleElem = document.getElementById("page-title");
 
 	winnerNameDisplayElem.style.color = fontColor;
-	pageTitleElem[0].style.color = fontColor;
-	bodyTagWithAllContent.style.backgroundColor = backgroundColor;
+	pageTitleElem.style.color = fontColor;
+	bodyContent.style.backgroundColor = backgroundColor;
 } 
-
-
-// https://github.com/DavidLev1/Tic-Tac-Toe-game
-
-//  https://tic-tac-toe-game-by-david-lev.herokuapp.com

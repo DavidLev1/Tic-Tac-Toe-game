@@ -2,55 +2,73 @@
 <html>
 
 <head>
+	<meta 
+		name="viewport" 
+		content="width=device-width, 
+						initial-scale=1.0,
+						maximum-scale=2.0, 
+						minimum-scale=0.5"
+	>
 	<title>Tic-tac-toe</title>
 	<link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-	<div id="game-container">
-		<h1 class="page-title">Tic Tac Toe game</h1>
-			
-		<input type="text" id="first-player-name" class="player-name-input" placeholder="First player name">
-		<input type="text" id="second-player-name" class="player-name-input" placeholder="Second player name">
+	<h1 id="page-title">Tic Tac Toe game</h1>
+
+	<div id="players-names-container">
+		<input 
+			type="text" 
+			id="first-player-name" 
+			class="player-name-input" 
+			placeholder="Type player 1 name"
+		>
+		</br>
+		<input 
+			type="text" 
+			id="second-player-name" 
+			class="player-name-input" 
+			placeholder="Type player 2 name"
+		>
 		</br>
 		<div id="players-names-error"></div>
-		</br>
-
-		<div id="game-board">
-			<div class="table-row" row-index="0">
-				<div class="table-cell" column-index="0"></div>
-				<div class="table-cell" column-index="1"></div>
-				<div class="table-cell" column-index="2"></div>
-			</div>
-			<div class="table-row" row-index="1">
-				<div class="table-cell" column-index="0"></div>
-				<div class="table-cell" column-index="1"></div>
-				<div class="table-cell" column-index="2"></div>
-			</div>
-			<div class="table-row" row-index="2">
-				<div class="table-cell" column-index="0"></div>
-				<div class="table-cell" column-index="1"></div>
-				<div class="table-cell" column-index="2"></div>
-			</div>
-		</div>
-
 	</div>
 
-	<br/></br></br>
+
+	<div id="game-board">
+		<div class="table-row" row-index="0">
+			<div class="table-cell left-upper-cell" column-index="0"></div>
+			<div class="table-cell middle-upper-cell" column-index="1"></div>
+			<div class="table-cell right-upper-cell" column-index="2"></div>
+		</div>
+		<div class="table-row" row-index="1">
+			<div class="table-cell left-middle-cell" column-index="0"></div>
+			<div class="table-cell middle-middle-cell" column-index="1"></div>
+			<div class="table-cell right-middle-cell" column-index="2"></div>
+		</div>
+		<div class="table-row" row-index="2">
+			<div class="table-cell left-lower-cell" column-index="0"></div>
+			<div class="table-cell middle-lower-cell" column-index="1"></div>
+			<div class="table-cell" column-index="2"></div>
+		</div>
+	</div>
+	
 
 	<div id="start-game">
-	</br></br>
-		<button id="start-new-game-button" onclick="startNewGame()">start new game</button></br></br>
-		<button id="get-light-pallet-buttton" onclick="pallete(event)">light</button>&nbsp;&nbsp;
-		<button id="get-dark-pallet-buttton" onclick="pallete(event)">dark</button>
-
-		<br/></br></br>
-		<div id="winner"></div>	
+		<button id="start-new-game-button" onclick="startNewGame()">New Game</button>
+		</br>
+		<button id="stop-game-button" onclick="stopGame()">Stop Game</button>
+		</br></br>
+		<button id="get-light-pallet-buttton" onclick="pallete(event)">Light Pallet</button>&nbsp;&nbsp;
+		</br></br>
+		<button id="get-dark-pallet-buttton" onclick="pallete(event)">Dark Pallet</button>
 	</div>
 
+	<div id="winner"></div>	
+
 	
-	<script type="text/javascript" src="app.js">
-	</script>
+
+	<script type="text/javascript" src="app.js"> </script>
 </body>
 
 </html> 
